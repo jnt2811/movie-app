@@ -92,7 +92,7 @@ class Home extends Component {
   render() {
     return (
       <div className="rmdb-home">
-        {this.state.heroImage ? (
+        {/* {this.state.heroImage ? (
           <div>
             <HeroImage
               image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${this.state.heroImage.backdrop_path}`}
@@ -102,11 +102,13 @@ class Home extends Component {
 
             <SearchBar callback={this.searchItems} />
           </div>
-        ) : null}
+        ) : null} */}
+
+        <SearchBar callback={this.searchItems} />
 
         <div className="rmdb-home-grid">
           <FourColGrid
-            header={this.state.searchTerm ? "Search Result" : "Popular Movies"}
+            header={this.state.searchTerm ? "Kết quả tìm kiếm" : "Phim nổi bật"}
             loading={this.state.loading}
           >
             {this.state.movies.map((element, i) => {
@@ -130,7 +132,7 @@ class Home extends Component {
 
           {this.state.currentPage <= this.state.totalPages &&
           !this.state.loading ? (
-            <LoadMoreBtn text="Load More" onClick={this.loadMoreItems} />
+            <LoadMoreBtn text="Tải thêm" onClick={this.loadMoreItems} />
           ) : null}
         </div>
       </div>
