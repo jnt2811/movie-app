@@ -1,1 +1,5 @@
-# Movie App
+# ReactMovieDB Web Application
+
+## Synopsis
+
+# Movie Website
