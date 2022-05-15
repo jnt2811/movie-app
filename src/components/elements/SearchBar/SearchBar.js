@@ -23,10 +23,11 @@ class SearchBar extends Component {
       <div className="rmdb-searchbar">
         <div className="rmdb-searchbar-content">
           <FontAwesome className="rmdb-fa-search" name="search" size="2x" />
+
           <input
             type="text"
             className="rmdb-searchbar-input"
-            placeholder="Search"
+            placeholder="Tìm kiếm..."
             onChange={this.doSearch}
             value={this.state.value}
           />

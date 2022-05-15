@@ -1,41 +1,40 @@
 .rmdb-searchbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-inline: auto;
+  max-width: 1280px;
   width: 100%;
-  height: 105px;
-  background: #1c1c1c;
-  position: relative;
-  padding: 25px 20px 0px 20px;
-  box-sizing: border-box;
-  color: #fff;
+  margin-top: -90px;
+  margin-bottom: 50px;
 }
 
 .rmdb-searchbar-content {
-  max-width: 1280px;
-  width: 100%;
-  height: 55px;
+  width: 300px;
+  height: 50px;
   background: #353535;
-  margin: 0 auto;
   border-radius: 40px;
   position: relative;
   color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 5px 20px;
 }
 
 .rmdb-fa-search {
-  position: absolute;
-  left: 20px;
-  top: 12px;
   color: #fff;
 }
 
 .rmdb-searchbar-input {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  font-size: 38px;
-  position: absolute;
-  left: 70px;
-  top: 7px;
+  font-size: 20px;
+  width: 100%;
+  background-color: red;
+  /* position: absolute; */
+  /* left: 70px; */
+  /* top: 7px; */
   border: 0;
   background: transparent;
-  height: 40px;
+  /* height: 40px; */
   color: #fff;
 }
 

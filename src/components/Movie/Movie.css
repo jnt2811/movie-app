@@ -7,3 +7,27 @@
   margin: 0 auto;
   padding: 0 20px;
 }
+
+.movie-videos,
+.movie-reviews {
+  max-width: 1280px;
+  margin: auto;
+}
+
+.movie-videos h2,
+.movie-reviews h2 {
+  font-size: 40px;
+}
+
+.movie-review p {
+  font-size: 12px;
+}
+
+.movie-review-avatar {
+  width: 100px !important;
+  aspect-ratio: 1/1 !important;
+  border-radius: 50%;
+}
+.thumbs-wrapper.axis-vertical {
+  display: none;
+}

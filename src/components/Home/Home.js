@@ -1,18 +1,18 @@
 import React, { Component } from "react";
-import {
-  API_URL,
-  API_KEY,
-  IMAGE_BASE_URL,
-  POSTER_SIZE,
-  BACKDROP_SIZE,
-} from "../../config";
-import HeroImage from "../elements/HeroImage/HeroImage";
+import { API_URL, API_KEY, IMAGE_BASE_URL, POSTER_SIZE } from "../../config";
 import SearchBar from "../elements/SearchBar/SearchBar";
 import FourColGrid from "../elements/FourColGrid/FourColGrid";
 import MovieThumb from "../elements/MovieThumb/MovieThumb";
 import LoadMoreBtn from "../elements/LoadMoreBtn/LoadMoreBtn";
 import Spinner from "../elements/Spinner/Spinner";
 import "./Home.css";
+
+const listType = {
+  popular: "popular",
+  now_playing: "now_playing",
+  top_rated: "top_rated",
+  upcoming: "upcoming",
+};
 
 class Home extends Component {
   state = {
@@ -22,6 +22,7 @@ class Home extends Component {
     currentPage: 0,
     totalPages: 0,
     searchTerm: "",
+    type: listType.popular,
   };
 
   componentDidMount() {
@@ -30,7 +31,7 @@ class Home extends Component {
       this.setState({ ...state });
     } else {
       this.setState({ loading: true });
-      const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+      const endpoint = `${API_URL}movie/${this.state.type}?api_key=${API_KEY}&language=en-US&page=1`;
       this.fetchItems(endpoint);
     }
   }
@@ -44,7 +45,7 @@ class Home extends Component {
     });
 
     if (searchTerm === "") {
-      endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+      endpoint = `${API_URL}movie/${this.state.type}?api_key=${API_KEY}&language=en-US&page=1`;
     } else {
       endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}`;
     }
@@ -56,9 +57,9 @@ class Home extends Component {
     this.setState({ loading: true });
 
     if (this.state.searchTerm === "") {
-      endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${
-        this.state.currentPage + 1
-      }`;
+      endpoint = `${API_URL}movie/${
+        this.state.type
+      }?api_key=${API_KEY}&language=en-US&page=${this.state.currentPage + 1}`;
     } else {
       endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${
         this.state.searchTerm
@@ -89,41 +90,78 @@ class Home extends Component {
       .catch((error) => console.error("Error:", error));
   };
 
+  handleClickType = (type) => {
+    console.log(type);
+    this.setState({
+      movies: [],
+      loading: true,
+      type,
+    });
+    const endpoint = `${API_URL}movie/${type}?api_key=${API_KEY}&language=en-US&page=1`;
+    console.log(endpoint);
+    this.fetchItems(endpoint);
+  };
+
+  renderTypeName = (type) => {
+    switch (type) {
+      case listType.popular:
+        return "Phim ăn khách";
+      case listType.latest:
+        return "Phim mới";
+      case listType.now_playing:
+        return "Phim đang chiếu";
+      case listType.top_rated:
+        return "Phim hay nhất";
+      default:
+        return "Phim sắp chiếu";
+    }
+  };
+
   render() {
+    console.log(this.state);
+
     return (
       <div className="rmdb-home">
-        {/* {this.state.heroImage ? (
-          <div>
-            <HeroImage
-              image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${this.state.heroImage.backdrop_path}`}
-              title={this.state.heroImage.original_title}
-              text={this.state.heroImage.overview}
-            />
-
-            <SearchBar callback={this.searchItems} />
-          </div>
-        ) : null} */}
-
         <SearchBar callback={this.searchItems} />
+
+        {!this.state.searchTerm && (
+          <div className="rmdb-home-filter">
+            {Object.values(listType).map((type) => (
+              <button
+                key={type}
+                className={type === this.state.type ? "active" : ""}
+                onClick={() => this.handleClickType(type)}
+              >
+                {this.renderTypeName(type)}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="rmdb-home-grid">
           <FourColGrid
-            header={this.state.searchTerm ? "Kết quả tìm kiếm" : "Phim nổi bật"}
+            header={
+              this.state.searchTerm
+                ? "Kết quả tìm kiếm"
+                : this.renderTypeName(this.state.type)
+            }
             loading={this.state.loading}
           >
             {this.state.movies.map((element, i) => {
               return (
-                <MovieThumb
-                  key={i}
-                  clickable={true}
-                  image={
-                    element.poster_path
-                      ? `${IMAGE_BASE_URL}${POSTER_SIZE}${element.poster_path}`
-                      : "./images/no_image.jpg"
-                  }
-                  movieId={element.id}
-                  movieName={element.original_title}
-                />
+                <div key={i}>
+                  <MovieThumb
+                    clickable={true}
+                    image={
+                      element.poster_path
+                        ? `${IMAGE_BASE_URL}${POSTER_SIZE}${element.poster_path}`
+                        : "./images/no_image.jpg"
+                    }
+                    movieId={element.id}
+                    movieName={element.original_title}
+                    movieVote={element.vote_average}
+                  />
+                </div>
               );
             })}
           </FourColGrid>
