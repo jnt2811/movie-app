@@ -6,6 +6,7 @@ import MovieThumb from "../elements/MovieThumb/MovieThumb";
 import LoadMoreBtn from "../elements/LoadMoreBtn/LoadMoreBtn";
 import Spinner from "../elements/Spinner/Spinner";
 import "./Home.css";
+import Helmet from "react-helmet";
 
 const listType = {
   popular: "popular",
@@ -122,6 +123,15 @@ class Home extends Component {
 
     return (
       <div className="rmdb-home">
+        <Helmet>
+          <title>About - yoursite.com</title>
+          <meta
+            name="description"
+            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          />
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
+
         <SearchBar callback={this.searchItems} />
 
         {!this.state.searchTerm && (
